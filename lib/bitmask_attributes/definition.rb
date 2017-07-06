@@ -129,7 +129,7 @@ module BitmaskAttributes
           )
         end
         model.class_eval %(
-          def #{attribute}?(*values)
+          def has_all_#{attribute}?(*values)
             if !values.blank?
               values.flatten.all? do |value|
                 self.#{attribute}.include?(value)

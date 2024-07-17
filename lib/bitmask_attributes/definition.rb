@@ -27,6 +27,8 @@ module BitmaskAttributes
         # database (the migration has not been run) or table doesn't exist. This usually
         # occurs in the 'test' and 'production' environment or during migration.
         return if defined?(Rails) && Rails.configuration.cache_classes || !model.table_exists?
+        # Can't Validate if we are trying to run a migration and the attribute is not in the database.
+        return if (File.basename($0) == "rake" && ARGV.include?("db:migrate"))
 
         unless model.columns.detect { |col| col.name == attribute.to_s }
           missing_attribute(attribute, model)
